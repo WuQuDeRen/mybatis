@@ -11,7 +11,7 @@
 	<select id="findByUsername" parameterType="string" resultMap="mapAdmin">
 		select 
 			<include refid="base_columns"/>,
-			role.role_name, role.role_description
+			role.role_name
 		from admin admin
 		left join admin_role middle on admin.admin_id = middle.admin_id
 		left join role role on middle.role_id = role.role_id

@@ -16,17 +16,11 @@
         <%@ include file="/WEB-INF/views/commons/css.jsp" %>
         <%@ include file="/WEB-INF/views/commons/js.jsp" %>
        	<link rel="stylesheet" href="static/custom/css/login/login.css">
-        <script type="text/javascript">
-		    //跳出iframe框架
-		    if (window != top) {
-			   top.location.href = location.href; 
-		    }
-		</script>
     </head>  
     <body>  
 	    <div class="container">  
 	        <div class="form row">  
-	            <form id="login-form" class="form-horizontal col-sm-offset-3 col-md-offset-3" action="<c:url value="/login"/>" method="POST" >  
+	            <form id="login-form" class="form-horizontal col-sm-offset-3 col-md-offset-3" action="<c:url value="/auth"/>" method="POST" >  
 	                <h3 class="form-title">Login to your account</h3>
 	                <c:if test="${not empty error}">
 			            <p id="error-content" style="color:red">${error}</p>

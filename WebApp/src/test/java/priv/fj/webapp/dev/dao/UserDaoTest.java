@@ -14,5 +14,6 @@ public class UserDaoTest extends BaseTest{
 	@Test
 	public void testGetByName() {
 		User user = userRepository.findByUsername("1");
+		System.out.println(user);
 	}
 }

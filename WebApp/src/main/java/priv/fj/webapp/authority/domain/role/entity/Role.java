@@ -15,6 +15,20 @@ public class Role {
 	private String roleDesc;
 	private List<Admin> admins;
 
+	public Role() {
+		super();
+	}
+
+	public Role(String roleName) {
+		super();
+		this.roleName = roleName;
+	}
+
+	public Role(Integer roleId) {
+		super();
+		this.roleId = roleId;
+	}
+
 	public List<Admin> getAdmins() {
 		return admins;
 	}

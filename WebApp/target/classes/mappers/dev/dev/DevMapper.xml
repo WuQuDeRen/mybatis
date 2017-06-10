@@ -73,7 +73,7 @@
 		inner join community community on building.community_id=community.community_id
 		<if test="companyId != null">
 			inner join estate_community ec on community.community_id=ec.community_id
-			inner join estate_company estate on ec.company_id=estate.company_id
+			inner join estate estate on ec.company_id=estate.company_id
 		</if>
 		<where>
 			<if test="communityId != null">

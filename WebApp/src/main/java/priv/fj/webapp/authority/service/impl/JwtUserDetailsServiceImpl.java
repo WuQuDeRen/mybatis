@@ -12,12 +12,12 @@ import priv.fj.webapp.authority.service.JwtUserFactory;
 
 @Service("jwtUserDetailsServiceImpl")
 public class JwtUserDetailsServiceImpl implements UserDetailsService {
-    @Autowired
+	@Autowired
     private UserDao userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
+    	User user = userRepository.findByUsername(username);
 
         if (user == null) {
             throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
