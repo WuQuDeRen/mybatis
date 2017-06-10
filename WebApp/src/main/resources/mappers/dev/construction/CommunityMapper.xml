@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="priv.fj.webapp.construction.dao.CommunityDao">
+	<sql id="allFields">
+		comm.community_name as communityName, comm.province as province, comm.community_id as communityId
+	</sql>
+	<sql id="fromTable">
+		from community comm
+	</sql>
+	<sql id="insetFields">
+		community_name, province
+	</sql>
+	<select id="getByMultipartCondition" parameterType="SearchCondition" resultType="Community">
+		 select distinct <include refid="allFields"/>
+		 <include refid="fromTable"/>
+		 inner join building building on comm.community_id = building.community_id
+		 where <![CDATA[ comm.community_id < #{communityId}]]>
+	</select>
+	
+	
+	<select id="getById" parameterType="int" resultType="Community">
+		select <include refid="allFields"/>
+		<include refid="fromTable"/>
+		where comm.community_id= #{communityId}
+	</select>
+	<select id="getByBuildingId"  parameterType="int" resultType="Community">
+		select	<include refid="allFields"/>
+		<include refid="fromTable"/>
+		inner join building building on comm.community_id = building.community_id
+		where building.building_id = #{buildingId}
+	</select>
+	<insert id="insert" parameterType="Community">
+		insert into community (<include refid="insetFields"/>)
+		values(#{communityName}, #{province})
+	</insert>
+	<insert id="insertList" parameterType="CommunityDto" useGeneratedKeys="true" keyProperty="communityId">
+		insert into community (<include refid="insetFields"/>) values
+		<foreach collection="list" item="community" separator=",">
+			(#{community.communityName}, #{community.province})
+		</foreach>
+	</insert>
+</mapper>

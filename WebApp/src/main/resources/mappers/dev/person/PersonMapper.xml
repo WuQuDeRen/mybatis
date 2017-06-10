@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="priv.fj.webapp.dev.dao.PersonDao">
+	<sql id="person_s_columns">
+		${prefix}.id as id, ${prefix}.name as name, ${prefix}.age as age
+	</sql>
+	<sql id="person_c_columns">
+		name, age
+	</sql>
+	<sql id="alias">
+		<include refid="person_s_columns">
+				<property name="prefix" value="p"/>
+		</include>
+	</sql>
+	<select id="get" parameterType="int" resultType="Person">
+		select <include refid="alias"/>
+		from tb_person p
+		where p.id = #{id}	
+	</select>
+	<select id="getList" resultType="Person">
+		select <include refid="alias"/>
+		from tb_person p
+	</select>
+	<update id="update" parameterType="Person">
+		update tb_person 
+		<set>
+			<if test="name != null and name != ''">
+				name = #{name},
+			</if>
+			<if test="age != null">
+				age = #{age}
+			</if>
+		</set>
+		where id = #{id}
+	</update>
+	<insert id="insert" parameterType="Person" useGeneratedKeys="true" keyProperty="id">
+		insert into tb_person(<include refid="person_c_columns"/>)
+		values(#{name},#{age})
+	</insert>
+	<delete id="delete" parameterType="DeletePerson">
+		delete from tb_person
+		where id in 
+		<foreach item="id" collection="ids" open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+	</delete>
+</mapper>

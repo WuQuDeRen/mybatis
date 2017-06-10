@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="priv.fj.webapp.dev.dao.ExtDevDao">
+	<sql id="ext_dev_r_columns">
+		${prefix}.device_id deviceId, ${prefix}.device_name deviceName
+	</sql>
+	<sql id="ext_dev_c_columns">
+		device_id, device_name
+	</sql>
+	<sql id="ext_dev_r">
+		<include refid="ext_dev_r_columns">
+			<property name="prefix" value="dev"/>
+		</include>
+	</sql>
+	<insert id="insert" parameterType="ExtDev">
+		insert into ext_dev(<include refid="ext_dev_c_columns"/>)
+		values(#{deviceId}, #{deviceName})
+	</insert>
+	<update id="update" parameterType="ExtDev">
+		update ext_dev 
+		<set>
+			device_name = #{deviceName},
+			device_status = #{status}
+		</set>
+		where id = #{deviceId}
+	</update>
+	<delete id="delete" parameterType="DeleteExtDev">
+		delete ext_dev
+		where id in
+		<foreach item="id" collection="ids" open="(" close=")" separator=",">
+			#{ids}
+		</foreach>
+	</delete>
+	<resultMap id="extDevMap" type="ExtDev" >
+		<association property="unit" javaType="Unit" column="unit_id" >
+			<association property="building" javaType="Building" column="building_id">
+				<association property="community" javaType="Community" column="community_id">
+					<collection property="company" ofType="EstateCompany"></collection>
+				</association>
+			</association>
+		</association>
+	</resultMap>
+	<select id="get" parameterType="SearchDev" resultMap="extDevMap">
+		<bind name="fetchType" value="fetch"></bind>
+		<choose>
+			<when test="fetchType == 'eager'">
+				select 
+					<include refid="ext_dev_r"/>, unit.unit_id unitId, unit.unit_name unitName
+				from ext_dev dev
+				left join unit unit on dev.unit_id = unit.unit_id
+				where dev.device_id = #{devId} 
+			</when>
+			<otherwise>
+				select
+					<include refid="ext_dev_r"/>
+				from ext_dev dev
+				where dev.device_id = #{devId} 
+			</otherwise>
+		</choose>
+	</select>
+	<select id="getList" parameterType="SearchDev" resultMap="extDevMap">
+		select 
+			distinct <include refid="ext_dev_r"/>,
+			unit.unit_id, unit.unit_name,
+			building.building_id,building.building_name,
+			community.community_id, community.community_name
+			<if test="companyId != null">
+				,estate.company_id, estate.company_name
+			</if>
+		from ext_dev dev
+		inner join unit unit on dev.unit_id=unit.unit_id
+		inner join building building on unit.building_id=building.building_id
+		inner join community community on building.community_id=community.community_id
+		<if test="companyId != null">
+			inner join estate_community ec on community.community_id=ec.community_id
+			inner join estate_company estate on ec.company_id=estate.company_id
+		</if>
+		<where>
+			<if test="communityId != null">
+				community.community_id=#{communityId}
+			</if>
+			<if test="buildingId != null">
+				and building.building_id = #{buildingId}
+			</if>
+			<if test="unitId != null">
+				and unit.unit_id = #{unitId}
+			</if>
+			<if test="companyId != null">
+				and estate.company_id = #{companyId}
+			</if>
+		</where>
+	</select>
+</mapper>

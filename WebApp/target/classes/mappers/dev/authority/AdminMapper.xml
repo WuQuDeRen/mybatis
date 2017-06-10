@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="priv.fj.webapp.authority.dao.UserDao">
+	<sql id="base_columns">
+		admin.admin_id id, admin.account_name username, admin.password password
+	</sql>
+	<resultMap id="mapAdmin" type="User">
+		<id property="id" column="id"/>
+		<collection property="roles" ofType="Role"/>
+	</resultMap>
+	<select id="findByUsername" parameterType="string" resultMap="mapAdmin">
+		select 
+			<include refid="base_columns"/>,
+			role.role_name, role.role_description
+		from admin admin
+		left join admin_role middle on admin.admin_id = middle.admin_id
+		left join role role on middle.role_id = role.role_id
+		where admin.account_name = #{username}
+	</select>
+</mapper>

@@ -1,0 +1,43 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd">
+	
+	<http use-expressions="false" create-session="stateless" >
+		<!-- 关闭 CSRF 保护 -->
+		<csrf disabled="true" />
+
+		<custom-filter  before="FORM_LOGIN_FILTER" ref="jwtAuthenticationFilter" />
+
+		<!-- #################### 不需要控制权限 start #################### -->
+		<!-- 登录页面 -->
+		<intercept-url pattern="/account/login" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/static/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<!--<!– session 超时页面 –> -->
+		<!--<intercept-url pattern="/account/invalid/session" access="IS_AUTHENTICATED_ANONYMOUSLY"/> -->
+		<!-- #################### 不需要控制权限 end #################### -->
+
+		<!-- #################### 需要控制权限 start #################### -->
+		<!-- 访问其他所有页面都需要有USER权限 -->
+		<intercept-url pattern="/**" access="ROLE_USER" />
+		<!-- #################### 需要控制权限 end #################### -->
+
+		<!-- 配置登录页面地址login-page、登录失败后的跳转地址authentication-failure-url -->
+		<form-login login-page="/account/login"  password-parameter="password" username-parameter="username"/>
+		<!--<!– 已经超时的 sessionId 进行请求需要重定向的页面 –> -->
+		<!--<session-management invalid-session-url="/account/invalid/session"> -->
+		<!--<!– 设置一个帐号同时允许登录多少次 –> -->
+		<!--<concurrency-control max-sessions="1" /> -->
+		<!--</session-management> -->
+	</http>
+
+	<beans:bean id="jwtUtils" class="priv.fj.webapp.authority.util.JWTUtils" />
+	
+	<!-- <beans:bean id="jwtAuthenticationFilter" class="priv.fj.webapp.authority.filter.JWTAuthenticationFilter" /> -->
+	<beans:bean id="jwtAuthenticationFilter" class="priv.fj.webapp.authority.filter.JwtAuthenticationTokenFilter" />
+	
+	<authentication-manager id="authenticationManager">
+		<authentication-provider user-service-ref="jwtUserDetailsServiceImpl" />
+	</authentication-manager>
+
+</beans:beans>

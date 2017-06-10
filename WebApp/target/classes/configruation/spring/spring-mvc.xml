@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	    http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+
+	<context:component-scan base-package="priv.fj.webapp.dev.controller" />
+	<context:component-scan base-package="priv.fj.webapp.authority.controller" />
+	<context:component-scan base-package="priv.fj.webapp.construction.controller" />
+	
+
+
+	<!--切面编程 -->
+	<aop:aspectj-autoproxy />
+	
+	<!-- REST中根据URL后缀自动判定Content-Type及相应的View -->
+	<bean id="contentNegotiationManager"
+		class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+		<property name="mediaTypes">
+			<map>
+				<entry key="xml" value="application/xml" />
+				<entry key="json" value="application/json" />
+			</map>
+		</property>
+		<property name="ignoreAcceptHeader" value="true" />
+		<property name="favorPathExtension" value="true" />
+	</bean>
+
+
+	<mvc:annotation-driven
+		content-negotiation-manager="contentNegotiationManager">
+		<mvc:message-converters register-defaults="true">
+		
+			<bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"/>
+			
+			<!-- 将StringHttpMessageConverter的默认编码设为UTF-8 -->
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<constructor-arg value="UTF-8" />
+			</bean>
+			<!--使用阿里巴巴的FastJson来进行java对象和JSON的转换(这个和上面的jackson任选一个) -->
+			<bean
+				class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+				<property name="supportedMediaTypes">
+					<list>
+						<value>text/html;charset=UTF-8</value>
+						<value>application/json;charset=UTF-8</value>
+						<value>image/png</value>
+					</list>
+				</property>
+				<property name="features">
+					<list>
+						<value>WriteMapNullValue</value>
+						<value>QuoteFieldNames</value>
+						<value>DisableCircularReferenceDetect</value>
+					</list>
+				</property>
+			</bean>
+			<!-- 使用XML格式输出数据 -->
+			<bean
+				class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+				<constructor-arg>
+					<bean class="org.springframework.oxm.xstream.XStreamMarshaller">
+						<property name="streamDriver">
+							<bean class="com.thoughtworks.xstream.io.xml.StaxDriver" />
+						</property>
+					</bean>
+				</constructor-arg>
+				<property name="supportedMediaTypes" value="application/xml"></property>
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+	<!-- 静态资源映射 -->
+	<mvc:resources mapping="/*.html" location="/" cache-period="31536000" />
+	<mvc:resources mapping="/static/**" location="/static/" cache-period="31536000" />
+
+	<!-- 定义无Controller的path<->view直接映射 -->
+	<mvc:view-controller path="/" view-name="index.html"/>
+	<bean id="jspViewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+			<property name="maxUploadSize" value="10485760" />
+			<property name="defaultEncoding" value="UTF-8" />
+	</bean>
+	<!--加载国际化资源文件 -->
+	<!-- <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource"> 
+		<property name="basename" value="classpath*:/messages"/> </bean> -->
+</beans>
