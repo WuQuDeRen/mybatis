@@ -13,7 +13,7 @@ import priv.fj.webapp.dev.common.junit.JUnit4ClassRunner;
 
 
 @RunWith(JUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath*:/configruation/applicationContext.xml", "classpath*:/configruation/spring-mvc.xml"})
+@ContextConfiguration(locations = {"classpath*:/configruation/spring/spring-main.xml", "classpath*:/configruation/spring/spring-mvc.xml"})
 @WebAppConfiguration
 public class BaseMockMvc {
 	@Autowired

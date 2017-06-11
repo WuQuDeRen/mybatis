@@ -6,27 +6,29 @@
         class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
         <beans:constructor-arg value="/login" />
     </beans:bean> -->
-	<http auto-config="false" use-expressions="false" create-session="stateless" >
+	<http auto-config="false" use-expressions="true" create-session="stateless" >
 		<!-- 关闭 CSRF 保护 -->
 		<csrf disabled="true" />
 
 		<custom-filter  before="FORM_LOGIN_FILTER" ref="jwtAuthenticationFilter" />
-
+		
 		<!-- #################### 不需要控制权限 start #################### -->
 		<!-- 登录页面 -->
-		<intercept-url pattern="/account/login" access="IS_AUTHENTICATED_ANONYMOUSLY" />
-		<intercept-url pattern="/static/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/account/login" access="permitAll" />
+		<intercept-url pattern="/static/**" access="permitAll"/>
+		<intercept-url pattern="/auth/**" access="permitAll"/>
+		<intercept-url pattern="/account/test" access="hasRole('ROLE_ADMIN')"></intercept-url>
 		<!--<!– session 超时页面 –> -->
 		<!--<intercept-url pattern="/account/invalid/session" access="IS_AUTHENTICATED_ANONYMOUSLY"/> -->
 		<!-- #################### 不需要控制权限 end #################### -->
 
 		<!-- #################### 需要控制权限 start #################### -->
 		<!-- 访问其他所有页面都需要有USER权限 -->
-		<intercept-url pattern="/**" access="ROLE_USER" />
+		<!-- <intercept-url pattern="/**" access="ROLE_USER" /> -->
 		<!-- #################### 需要控制权限 end #################### -->
-
+ 
 		<!-- 配置登录页面地址login-page、登录失败后的跳转地址authentication-failure-url -->
-		<form-login  login-page="/account/login"  password-parameter="password" username-parameter="username"/>
+		<form-login  login-page="/account/login"  password-parameter="password" username-parameter="username" login-processing-url="/fj" />
 		<!--<!– 已经超时的 sessionId 进行请求需要重定向的页面 –> -->
 		<!--<session-management invalid-session-url="/account/invalid/session"> -->
 		<!--<!– 设置一个帐号同时允许登录多少次 –> -->

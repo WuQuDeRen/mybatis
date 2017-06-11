@@ -20,7 +20,7 @@
     <body>  
 	    <div class="container">  
 	        <div class="form row">  
-	            <form id="login-form" class="form-horizontal col-sm-offset-3 col-md-offset-3" action="<c:url value="/auth"/>" method="POST" >  
+	            <form id="login-form" class="form-horizontal col-sm-offset-3 col-md-offset-3" action="" method="POST" >  
 	                <h3 class="form-title">Login to your account</h3>
 	                <c:if test="${not empty error}">
 			            <p id="error-content" style="color:red">${error}</p>
@@ -28,7 +28,7 @@
 	                <div class="col-sm-9 col-md-9">
 	                    <div class="form-group">  
 	                        <i class="fa fa-user fa-lg"></i>  
-	                        <input class="form-control required" type="text" placeholder="accountName" name="username" autofocus="autofocus" maxlength="20"/>  
+	                        <input class="form-control required" type="text" placeholder="accountName" id="username"  name="username" autofocus="autofocus" maxlength="20"/>  
 	                    </div>  
 	                    <div class="form-group">
 	                            <i class="fa fa-lock fa-lg"></i>  
@@ -44,6 +44,31 @@
 	            </form>  
 	        </div>  
         </div>  
+        <script type="text/javascript">
+        	$(function() {
+        		$("#login-form").submit(function() {
+        			var username=$("#username").val();
+    				var password=$("#password").val();
+    				var param = {
+    					username: username,
+    					password: password
+    				};
+    				$.ajax({
+    					type: "post",
+    					url: "fj",
+    					data: JSON.stringify(param),
+    					contentType: "application/json;charset=UTF-8",
+    					success: function(data) {
+								console.info(data);
+    					},
+    					error: function() {
+    						
+    					}
+    				});
+    				return false;
+        		});
+        	});
+        </script>
     </body>  
 </html>  
 

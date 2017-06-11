@@ -55,7 +55,7 @@
     				};
     				$.ajax({
     					type: "post",
-    					url: "fj",
+    					url: "auth",
     					data: JSON.stringify(param),
     					contentType: "application/json;charset=UTF-8",
     					success: function(data) {
