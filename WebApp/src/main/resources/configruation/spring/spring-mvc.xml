@@ -81,7 +81,7 @@
 	<mvc:resources mapping="/static/**" location="/static/" cache-period="31536000" />
 
 	<!-- 定义无Controller的path<->view直接映射 -->
-	<mvc:view-controller path="/" view-name="index.html"/>
+	<mvc:view-controller path="/" view-name="index.jsp"/>
 	<bean id="jspViewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />

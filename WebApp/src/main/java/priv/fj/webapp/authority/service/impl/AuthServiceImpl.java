@@ -18,9 +18,9 @@ import org.springframework.stereotype.Service;
 
 import priv.fj.webapp.authority.dao.UserDao;
 import priv.fj.webapp.authority.domain.admin.entity.User;
+import priv.fj.webapp.authority.domain.role.dto.JwtUser;
 import priv.fj.webapp.authority.domain.role.entity.Role;
 import priv.fj.webapp.authority.service.AuthService;
-import priv.fj.webapp.authority.service.JwtUser;
 import priv.fj.webapp.authority.util.JwtTokenUtil;
 
 @Service("authServiceImpl")

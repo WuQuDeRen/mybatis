@@ -1,4 +1,4 @@
-package priv.fj.webapp.authority.service;
+package priv.fj.webapp.authority.domain.role.dto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,12 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import priv.fj.webapp.authority.domain.admin.entity.User;
 import priv.fj.webapp.authority.domain.role.entity.Role;
 
+
+/**
+ * 在此项目中了已经使用
+ * @author fj
+ *
+ */
 public final class JwtUserFactory {
 
     private JwtUserFactory() {

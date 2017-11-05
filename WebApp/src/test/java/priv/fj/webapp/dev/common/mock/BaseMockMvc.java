@@ -21,7 +21,7 @@ public class BaseMockMvc {
 	private MockMvc mockMvc;
 	
 	@Before
-	public void setUp() {
+	public void setUp() {                                                       
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
 	}
 	

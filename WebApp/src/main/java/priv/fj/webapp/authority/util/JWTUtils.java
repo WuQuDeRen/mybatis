@@ -22,6 +22,11 @@ import priv.fj.webapp.authority.domain.role.dto.JWTUserDetails;
 
 import com.alibaba.fastjson.JSON;
 
+/**
+ * 本项目中未使用
+ * @author fj
+ *
+ */
 public class JWTUtils {
 	public static final String ROLE_REFRESH_TOKEN = "ROLE_REFRESH_TOKEN";
 
