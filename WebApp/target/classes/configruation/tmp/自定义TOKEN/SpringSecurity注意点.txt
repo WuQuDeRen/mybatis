@@ -1,0 +1,8 @@
+1、<form-login> 元素的login-processing-url属性指定的地址，
+    在使用POST请求时请求，这个请求会被AbstractAuthenticationProcessingFilter类的doFilter()方法进行认证处理，
+	即会调用UsernamePasswordAuthenticationFilter类的public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
+	方法进行认证处理。如果是其他地址，则是不需要进行认证处理的，即AbstractAuthenticationProcessingFilter类的
+	protected boolean requiresAuthentication(HttpServletRequest request, HttpServletResponse response)方法永远返回false，不用进行认证处理
+	
+	
+	
