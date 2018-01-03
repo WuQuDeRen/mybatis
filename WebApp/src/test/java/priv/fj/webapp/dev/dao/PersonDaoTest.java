@@ -29,40 +29,14 @@ public class PersonDaoTest extends BaseTest {
 	        </list>
 	    </property>
     </bean>	*/
-	@Value("#{configProperties['infoo.a']}")
-	public String infoA;
+	/*@Value("#{configProperties['infoo.a']}")
+	public String infoA;*/
 	
 	//<context:property-placeholder ignore-unresolvable="true"  location="classpath*:/configruation/config.properties" />
 	@Value("${jdbc.username}")
 	private String name;
-	
-	/*@Test
-	public void testGet() {
-		System.out.println(PropertyUtils.url);
-		System.out.println(PropertyUtils.root);
-		//ReloadableResourceBundleMessageSource s = (ReloadableResourceBundleMessageSource) ms;
-		System.out.println(context);
-		Integer id = 2;
-		Person person = this.personDao.get(id);
-		Assert.assertNotNull(person);
-		Assert.assertEquals(id, person.getId());
-	}
-
-	@Test
-	public void test2() {
-		SqlSessionFactory bean = SpringContextHolder
-				.getBean("sqlSessionFactory");
-		System.out.println(bean.getClass());
-	}
-	
-	@Test
-	public void testUpdate() {
-		Person p = new Person();
-		p.setId(1);
-		p.setName("fj");
-		int count = personDao.update(p);
-		System.out.println(count);
-	}*/
+	@Value("${jwt.header}")
+	private String header;
 	
 	@Test
 	public void testGet() throws NoSuchFieldException, SecurityException, IllegalArgumentException, IllegalAccessException {

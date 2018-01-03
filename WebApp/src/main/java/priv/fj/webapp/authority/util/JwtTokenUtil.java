@@ -4,16 +4,19 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import priv.fj.webapp.authority.service.JwtUser;
-
-import java.io.Serializable;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import priv.fj.webapp.authority.domain.role.dto.JwtUser;
 
 @Component
 public class JwtTokenUtil implements Serializable {
@@ -92,6 +95,12 @@ public class JwtTokenUtil implements Serializable {
         Map<String, Object> claims = new HashMap<>();
         claims.put(CLAIM_KEY_USERNAME, userDetails.getUsername());
         claims.put(CLAIM_KEY_CREATED, new Date());
+        GrantedAuthority[] authorities = userDetails.getAuthorities().toArray(new GrantedAuthority[]{});
+        List<String> roles = new ArrayList<String>();
+        for (GrantedAuthority authority : authorities) {
+        	roles.add(authority.getAuthority());
+        }
+        claims.put("role", roles);
         return generateToken(claims);
     }
 

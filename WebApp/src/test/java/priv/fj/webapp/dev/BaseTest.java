@@ -1,4 +1,4 @@
-package priv.fj.webapp.dev;
+ package priv.fj.webapp.dev;
 
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;

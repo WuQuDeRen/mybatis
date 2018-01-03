@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.apache.ibatis.type.Alias;
 
+import priv.fj.webapp.authority.domain.role.entity.Role;
+
 @Alias("User")
 public class User {
 	private String id;
@@ -12,7 +14,7 @@ public class User {
 	private String password;
 	private String email;
 	private Date lastPasswordResetDate;
-	private List<String> roles;
+	private List<Role> roles;
 
 	public String getId() {
 		return id;
@@ -54,11 +56,11 @@ public class User {
 		this.lastPasswordResetDate = lastPasswordResetDate;
 	}
 
-	public List<String> getRoles() {
+	public List<Role> getRoles() {
 		return roles;
 	}
 
-	public void setRoles(List<String> roles) {
+	public void setRoles(List<Role> roles) {
 		this.roles = roles;
 	}
 

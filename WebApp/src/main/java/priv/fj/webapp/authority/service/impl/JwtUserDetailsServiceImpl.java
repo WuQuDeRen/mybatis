@@ -8,16 +8,20 @@ import org.springframework.stereotype.Service;
 
 import priv.fj.webapp.authority.dao.UserDao;
 import priv.fj.webapp.authority.domain.admin.entity.User;
-import priv.fj.webapp.authority.service.JwtUserFactory;
+import priv.fj.webapp.authority.domain.role.dto.JwtUserFactory;
 
+/** 在此项目中已经使用
+ * @author fj
+ *
+ */
 @Service("jwtUserDetailsServiceImpl")
 public class JwtUserDetailsServiceImpl implements UserDetailsService {
-    @Autowired
+	@Autowired
     private UserDao userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username);
+    	User user = userRepository.findByUsername(username);
 
         if (user == null) {
             throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));

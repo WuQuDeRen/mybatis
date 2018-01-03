@@ -5,6 +5,12 @@ import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+
+/**
+ * 在此项目中并未使用
+ * @author fj
+ *
+ */
 @SuppressWarnings("serial")
 public class JWTUserDetails implements UserDetails {
 

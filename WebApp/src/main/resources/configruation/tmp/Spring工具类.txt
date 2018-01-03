@@ -1,0 +1,13 @@
+1、重定向工具类
+  1）RedirectStrategy 
+    
+	RedirectStrategy是Spring提供的一个客户端跳转的工具类。使用它可以支持“/index.jsp”这种地址，同时可以保证服务器跳转和客户端跳转的路径一致。
+  
+	在RedirectStrategy中，'/'代表的是项目根目录而不是服务器根目录
+  
+	举例：
+		现在要使用重定向到 "/login.jsp" 
+		
+		如果是response.sendRedirect("/login.jsp"), 则会重定向到http://localhost:8080/login.jsp
+
+        如果是redirectStrategy.sendRedirect("/login.jsp"), 则会重定向到http://localhost:8080/my/login.jsp

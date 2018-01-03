@@ -18,8 +18,9 @@ import org.springframework.stereotype.Service;
 
 import priv.fj.webapp.authority.dao.UserDao;
 import priv.fj.webapp.authority.domain.admin.entity.User;
+import priv.fj.webapp.authority.domain.role.dto.JwtUser;
+import priv.fj.webapp.authority.domain.role.entity.Role;
 import priv.fj.webapp.authority.service.AuthService;
-import priv.fj.webapp.authority.service.JwtUser;
 import priv.fj.webapp.authority.util.JwtTokenUtil;
 
 @Service("authServiceImpl")
@@ -60,7 +61,7 @@ public class AuthServiceImpl implements AuthService {
         final String rawPassword = userToAdd.getPassword();
         userToAdd.setPassword(encoder.encode(rawPassword));
         userToAdd.setLastPasswordResetDate(new Date());
-        userToAdd.setRoles(asList("ROLE_USER"));
+        userToAdd.setRoles(asList(new Role("ROLE_USER")));
         return userRepository.insert(userToAdd);
     }
 
