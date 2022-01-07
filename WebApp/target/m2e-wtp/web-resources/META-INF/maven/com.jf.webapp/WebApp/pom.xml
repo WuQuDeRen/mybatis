@@ -11,7 +11,7 @@
 		<mysql.version>5.1.31</mysql.version>
 		<testng.version>6.9.4</testng.version>
 		<mockito.version>1.10.19</mockito.version>
-		<h2.version>1.4.187</h2.version>
+		<h2.version>2.0.206</h2.version>
 		<xstream.version>1.4.7</xstream.version>
 		<dbunit.version>2.2</dbunit.version>
 		<mybatis.version>3.4.0</mybatis.version>
